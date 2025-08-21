@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Piyush Sahu | Portfolio</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css">
+    
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <style>
+        /* ==========================================================================
+           🎨 STYLING SECTION (CSS) 🎨
+           This is where the magic happens! We're defining the entire look and
+           feel of the portfolio here, from colors and fonts to layout.
+        ========================================================================== */
+
+        /* ===  VARIABLES & THEME SETUP === */
+        /* Using CSS variables makes it super easy to manage colors and switch themes. */
+        :root {
+            /* This is our default "Light Mode" color palette. */
+            --bg-color: #f4f4f5;              /* A soft, light gray for the main background. */
+            --card-color: #ffffff;            /* White for all the cards and sections. */
+            --text-color: #18181b;            /* A dark gray for main text, easy to read. */
+            --subtle-text-color: #52525b;     /* A lighter gray for less important text. */
+            --accent-color-1: #8b5cf6;        /* A vibrant purple for highlights and links. */
+            --accent-color-2: #14b8a6;        /* A bright teal to pair with the purple. */
+            --accent-gradient: linear-gradient(45deg, var(--accent-color-1), var(--accent-color-2)); /* A beautiful gradient using our accent colors. */
+            --border-color: #e4e4e7;          /* A very light gray for borders. */
+            --shadow-color: rgba(0, 0, 0, 0.05); /* A subtle shadow to make cards pop. */
+            --pattern-color: rgba(24, 24, 27, 0.04); /* Color for the wavy background pattern. */
+        }
+
+        /* When the <body> has the 'dark-mode' class, these variables will take over. */
+        .dark-mode {
+            /* This is our "Dark Mode" color palette. */
+            --bg-color: #18181b;
+            --card-color: #27272a;
+            --text-color: #f4f4f5;
+            --subtle-text-color: #a1a1aa;
+            --accent-color-1: #a78bfa;
+            --accent-color-2: #2dd4bf;
+            --border-color: #3f3f46;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --pattern-color: rgba(244, 244, 245, 0.04);
+        }
+
+        /* === GLOBAL RESETS & DEFAULTS === */
+        /* A good practice is to reset default browser styles for consistency. */
+        * {
+            margin: 0;
+            padding: 0;
+            /* This makes sizing elements more intuitive. Padding and borders won't add to the total width/height. */
+            box-sizing: border-box;
+        }
+
+        html {
+            /* This enables that nice, smooth scrolling effect when you click on a nav link. */
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif; /* Our chosen font from Google Fonts. */
+            background-color: var(--bg-color); /* Uses our theme variable for the background. */
+            color: var(--text-color);           /* Uses our theme variable for the text. */
+            line-height: 1.7;                 /* Gives text some breathing room between lines. */
+            transition: background-color 0.3s, color 0.3s; /* Smoothly animates the color change when switching themes. */
+            position: relative;               /* Needed for the background pattern to be positioned correctly. */
+        }
+
+        /* This is a neat trick to add a subtle background pattern without using an image file. */
+        body::before {
+            content: "";
+            position: fixed; /* Keeps the pattern in place, even when you scroll. */
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--pattern-color);
+            /* We use an SVG as a "mask" to create the wavy line shape. The background color fills it in. */
+            -webkit-mask-image: url("data:image/svg+xml,%3csvg width='100' height='20' viewBox='0 0 100 20' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M0 10 C 25 0, 25 20, 50 10 S 75 0, 100 10' stroke='white' stroke-width='1.5' fill='none'/%3e%3c/svg%3e");
+            mask-image: url("data:image/svg+xml,%3csvg width='100' height='20' viewBox='0 0 100 20' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M0 10 C 25 0, 25 20, 50 10 S 75 0, 100 10' stroke='white' stroke-width='1.5' fill='none'/%3e%3c/svg%3e");
+            mask-size: 100px 20px; /* How big each repeating wave is. */
+            z-index: -1; /* This pushes the pattern behind all of our content. */
+            pointer-events: none; /* Makes the pattern "un-clickable". */
+        }
+
+        /* === LAYOUT & TYPOGRAPHY === */
+        /* A simple container to center our content and give it some side padding. */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto; /* The 'auto' on left and right margins centers the element. */
+            padding: 0 1.5rem;
+        }
+        
+        /* General styles for headings. */
+        h1, h2, h3 {
+            color: var(--text-color);
+        }
+        
+        /* Styles for our main section titles (like "About Me", "Projects"). */
+        h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            font-weight: 700;
+        }
+        
+        /* Styles for sub-headings (like in the Skills section). */
+        h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        /* === 📌 NAVIGATION BAR === */
+        header {
+            position: fixed; /* This is what makes the navbar stick to the top! */
+            top: 0;
+            width: 100%;
+            background: var(--card-color-translucent, rgba(255, 255, 255, 0.8)); /* A cool semi-transparent background. */
+            backdrop-filter: blur(10px); /* This blurs the content that scrolls behind the navbar. */
+            padding: 1rem 0;
+            z-index: 1000; /* High z-index ensures it stays on top of everything else. */
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        
+        .dark-mode header {
+            /* We need to define a different translucent color for dark mode. */
+             --card-color-translucent: rgba(39, 39, 42, 0.8);
+        }
+
+        nav {
+            display: flex; /* Flexbox is great for aligning items in a row. */
+            justify-content: space-between; /* Pushes the logo to the left and the links to the right. */
+            align-items: center; /* Vertically aligns everything in the middle. */
+        }
+
+        nav .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+        }
+
+        /* On mobile, we hide the navigation links by default. */
+        .nav-links ul {
+            display: none;
+            list-style: none;
+        }
+        
+        /* A "media query" applies styles only on screens of a certain size. */
+        /* Here, we show the nav links on screens wider than 992px (laptops/desktops). */
+        @media (min-width: 992px) {
+            .nav-links ul {
+                display: flex;
+            }
+        }
+
+        .nav-links ul li {
+            margin-left: 1.5rem; /* Adds space between the links. */
+        }
+
+        .nav-links ul li a {
+            color: var(--subtle-text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links ul li a:hover {
+            color: var(--accent-color-1); /* A nice highlight color on hover. */
+        }
+        
+        #theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--subtle-text-color);
+            margin-left: 1.5rem;
+        }
+        
+        #theme-toggle:hover {
+            color: var(--accent-color-1);
+        }
+
+        /* === 📄 GENERAL SECTION STYLING === */
+        section {
+            padding: 6rem 0;
+            min-height: 100vh; /* Makes each section fill at least the height of the screen. */
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* This vertically centers the content within each section. */
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        section:last-of-type {
+            border-bottom: none; /* We don't need a border on the very last section. */
+        }
+
+        /* === 🦸‍♂️ HERO SECTION (The Big Welcome) === */
+        #hero {
+            text-align: center;
+        }
+        
+        #hero .profile-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%; /* This is the trick to make an image circular. */
+            object-fit: cover;  /* Prevents the image from being stretched or squished. */
+            margin-bottom: 1.5rem;
+            border: 5px solid var(--card-color);
+            box-shadow: 0 10px 20px var(--shadow-color);
+        }
+
+        #hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        #hero .tagline {
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-bottom: 2rem;
+            background: var(--accent-gradient); /* We apply our gradient as the background... */
+            -webkit-background-clip: text;       /* ...then we "clip" the background to the shape of the text... */
+            background-clip: text;
+            -webkit-text-fill-color: transparent; /* ...and finally make the text color transparent to reveal the gradient! */
+        }
+
+        .cta-buttons {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap; /* Allows buttons to stack on small screens. */
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--accent-gradient);
+            color: #fff;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: none;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px); /* A subtle "lift" effect on hover. */
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+        }
+        
+        .btn-secondary {
+            background: var(--card-color);
+            color: var(--accent-color-1);
+            border: 2px solid var(--accent-color-1);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--accent-color-1);
+            color: #fff;
+            box-shadow: none;
+        }
+
+        /* === 👨‍💻 ABOUT ME SECTION === */
+        #about .about-content {
+            max-width: 800px;
+            margin: auto;
+            text-align: center;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--subtle-text-color);
+        }
+
+        /* === 🛠️ SKILLS SECTION === */
+        .skills-container {
+            display: grid;
+            /* This is a powerful CSS Grid feature. It creates as many columns as can fit, with each being at least 300px wide. */
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-category {
+            background: var(--card-color);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .skill-category h3 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .skills-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            justify-content: center;
+        }
+        
+        .skill-item {
+            background: var(--bg-color);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: 1px solid var(--border-color);
+            font-size: 0.9rem;
+        }
+        
+        .skill-item i {
+            font-size: 1.25rem;
+            color: var(--accent-color-1);
+        }
+
+        /* === 📂 PROJECTS SECTION === */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* A responsive grid for project cards. */
+            gap: 1.5rem;
+        }
+
+        .project-card {
+            background: var(--card-color);
+            border-radius: 12px;
+            overflow: hidden; /* This keeps the image corners rounded. */
+            border: 1px solid var(--border-color);
+            box-shadow: 0 5px 15px var(--shadow-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column; /* Stacks content vertically. */
+        }
+        
+        .project-card:hover {
+            transform: translateY(-5px); /* Another lift effect for cards. */
+            box-shadow: 0 10px 25px var(--shadow-color);
+        }
+
+        .project-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+        
+        .project-card-content {
+            padding: 1.25rem;
+            flex-grow: 1; /* Allows this area to grow and fill available space. */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-card-content h3 {
+             font-size: 1.15rem;
+        }
+
+        .project-card-content p {
+            font-size: 0.9rem;
+            color: var(--subtle-text-color);
+            flex-grow: 1; /* Pushes the tech stack and links to the bottom. */
+        }
+
+        .project-card .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+        
+        .project-card .tech-stack span {
+            background: var(--bg-color);
+            color: var(--subtle-text-color);
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .project-links a {
+            color: var(--accent-color-1);
+            text-decoration: none;
+            margin-right: 1.5rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.9rem;
+        }
+        
+        .project-links a:hover {
+            text-decoration: underline;
+        }
+        
+        /* === 🃏 GENERIC CARD STYLING (for Experience, Education, etc.) === */
+        .card-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .info-card {
+            background: var(--card-color);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem; /* Reduced padding to make cards smaller. */
+            margin-bottom: 1.25rem;
+        }
+        
+        /* Special grid layout just for the certifications section. */
+        #certifications .card-container {
+             max-width: 1100px;
+             display: grid;
+             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+             gap: 1.5rem;
+        }
+        #certifications .info-card {
+            margin-bottom: 0;
+        }
+        
+        .info-card h3 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .info-card h3 span {
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: var(--subtle-text-color);
+        }
+        
+        .info-card p {
+            color: var(--subtle-text-color);
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+        
+        .info-card ul {
+            list-style-position: inside;
+            padding-left: 0.5rem;
+            color: var(--subtle-text-color);
+            font-size: 0.95rem;
+        }
+        
+        /* === 📞 CONTACT SECTION === */
+        #contact .contact-container {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        #contact p {
+            font-size: 1.1rem;
+            color: var(--subtle-text-color);
+            margin-bottom: 2rem;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .social-links a {
+            color: var(--subtle-text-color);
+            transition: color 0.3s, transform 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: var(--accent-color-1);
+            transform: scale(1.1); /* Makes the icon slightly bigger on hover. */
+        }
+        
+        #contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            text-align: left;
+        }
+        
+        #contact-form input,
+        #contact-form textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+        }
+        
+        #contact-form textarea {
+            min-height: 150px;
+            resize: vertical; /* Allows the user to resize the message box. */
+        }
+        
+        #contact-form .btn {
+            align-self: center;
+            width: 50%;
+            max-width: 200px;
+        }
+
+        /* === 👣 FOOTER === */
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            background: var(--card-color);
+            border-top: 1px solid var(--border-color);
+        }
+        
+        footer p {
+            color: var(--subtle-text-color);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#hero" class="logo">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M8 4H16C18.2091 4 20 5.79086 20 8V16C20 18.2091 18.2091 20 16 20H8C5.79086 20 4 18.2091 4 16V8C4 5.79086 5.79086 4 8 4ZM14 8H10V10H14V8ZM10 12H14V14H10V12Z" fill="var(--accent-color-1)"/>
+                    </svg>
+                   
+
+                    <span>Piyush Sahu</span>
+                </a>
+                
+                <div class="nav-links">
+                    <ul>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#skills">Skills</a></li>
+                        <li><a href="#projects">Projects</a></li>
+                        <li><a href="#experience">Experience</a></li>
+                        <li><a href="#education">Education</a></li>
+                        <li><a href="#honors">Honors</a></li>
+                        <li><a href="#certifications">Certifications</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+
+                    <button id="theme-toggle" aria-label="Toggle dark mode"></button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="hero">
+            <div class="container">
+                <img src="/images/WHITE_11zon.jpeg" alt="Piyush Sahu" class="profile-photo">
+                
+                <h1>Piyush Sahu</h1>
+                
+                <p class="tagline">Java Programmer | Full Stack Developer | Problem Solver</p>
+                
+                <div class="cta-buttons">
+                    <a href="#contact" class="btn">Get In Touch</a>
+                    <a href="https://drive.google.com/file/d/12Gr11Gzo6YO1i5X_el6ZAbx4qU9GgN0D/view?usp=sharing" target="_blank" class="btn btn-secondary">View Resume</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="about">
+            <div class="container">
+                <h2>About Me</h2>
+                <div class="about-content">
+                    <p>
+                        B.Tech Computer Science student at AKTU with a passion for front-end development, Java programming, and problem-solving. Experienced in building responsive web interfaces during my internship at Falcon Labs using HTML, CSS, and JavaScript. Skilled in Java, Python, C++, SQL, Django, Git, and UI/UX design. Developed multiple personal projects to enhance technical expertise.<br> <p> &nbsp;
+                         Aspiring to grow as a Java, front-end, or full-stack developer and contribute to impactful, user-focused software solutions.</p>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills">
+            <div class="container">
+                <h2>My Skills</h2>
+                <div class="skills-container">
+                    
+                    <div class="skill-category">
+                        <h3>Programming Languages</h3>
+                        <div class="skills-grid">
+                            <div class="skill-item"><i class="devicon-java-plain"></i> Java</div>
+                            <div class="skill-item"><i class="devicon-python-plain"></i> Python</div>
+                            <div class="skill-item"><i class="devicon-cplusplus-plain"></i> C++</div>
+                            <div class="skill-item"><i class="devicon-c-plain"></i> C</div>
+                            <div class="skill-item"><i class="devicon-html5-plain"></i> HTML</div>
+                            <div class="skill-item"><i class="devicon-css3-plain"></i> CSS</div>
+                            <div class="skill-item"><i class="devicon-javascript-plain"></i> JS</div>
+                            <div class="skill-item">DSA</div>
+                        </div>
+                    </div>
+                     
+                    <div class="skill-category">
+                        <h3>Frameworks & Databases</h3>
+                        <div class="skills-grid">
+                           <div class="skill-item"><i class="devicon-django-plain"></i> Django</div>
+                           <div class="skill-item"><i class="devicon-mysql-plain"></i> SQL</div>
+                           <div class="skill-item"><i class="devicon-mongodb-plain"></i> MongoDB</div>
+                           <div class="skill-item"><i class="devicon-sqlite-plain"></i> SQLite</div>
+
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h3>Tools & Platforms</h3>
+                        <div class="skills-grid">
+                            <div class="skill-item"><i class="devicon-git-plain"></i> Git</div>
+                            <div class="skill-item"><i class="devicon-github-original"></i> GitHub</div>
+                            <div class="skill-item"><i class="devicon-vscode-plain"></i> VS Code</div>
+                            <div class="skill-item"> 
+                              <a href="https://leetcode.com/u/killervashu1" target="_blank">LeetCode
+                              </a>
+                            </div>
+                            <div class="skill-item"><a href="https://www.hackerrank.com/profile/piyushsmark132" target="_blank">HackerRank</a></div>
+                            <div class="skill-item"> 
+                                <a href="https://www.codechef.com/users/killervashu1" target="_blank" >
+                                    CodeChef
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h3>Soft Skills</h3>
+                        <div class="skills-grid">
+                            <div class="skill-item">Problem Solving</div>
+                            <div class="skill-item">Teamwork</div>
+                            <div class="skill-item">Communication</div>
+                            <div class="skill-item">Adaptability</div>
+                            <div class="skill-item">Leadership</div>
+                            <div class="skill-item">Time Management</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="projects">
+            <div class="container">
+                <h2>Projects</h2>
+                <div class="projects-grid">
+                    
+                    <div class="project-card">
+                        <img src="/images/PRES.png" alt="Project 1 Screenshot">
+                        <div class="project-card-content">
+                            <h3>University Website</h3>
+                            <p>Developed a responsive university web application template using HTML, CSS, and JavaScript with Tailwind CSS and Font Awesome integration. Designed custom animations and a centralized layout for an engaging user experience across devices. Built with flexibility in mind, enabling easy customization and future scalability.</p>
+                            <div class="tech-stack"><span>HTML</span><span>CSS</span><span>JS</span></div>
+                            <div class="project-links"><a href="https://prestige-university-nine.vercel.app/" target="_blank">Live Demo <i data-feather="external-link" width="16"></i></a><a href="https://github.com/piyushs8589/Prestige-University" target="_blank">GitHub <i data-feather="github" width="16"></i></a></div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card">
+                        <img src="/images/ecommerce.png" alt="Project 2 Screenshot">
+                        <div class="project-card-content">
+                            <h3>E-Commerce Website</h3>
+                            <p>Developed a full-stack e-commerce web application using Django with features like user authentication, cart system, order management, invoice generation (PDF), and an admin dashboard for product/customer management..</p>
+                            <div class="tech-stack"><span>Python</span><span>Django</span><span>HTML</span><span>Bootstrap</span><span>SQLite</span></div>
+                            <div class="project-links">
+                                <!-- <a href="#" target="_blank">Live Demo <i data-feather="external-link" width="16"></i></a> -->
+                                <a href="https://github.com/piyushs8589/E-commerce" target="_blank">GitHub <i data-feather="github" width="16"></i></a></div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card">
+                        <img src="/images/slideshow.png" alt="Project 3 Screenshot">
+                        <div class="project-card-content">
+                            <h3>Characters Slideshow</h3>
+                            <p>A dynamic slideshow web app built with HTML and CSS to showcase your favorite characters.Smooth, auto-cycling transitions and responsive layout for crisp viewing on any device.Lightweight, no-JS setup with optional manual controls and captions..</p>
+                            <div class="tech-stack"><span>HTML</span><span>CSS</span></div>
+                            <div class="project-links"><a href="https://slide-show-eta.vercel.app/" target="_blank">Live Demo <i data-feather="external-link" width="16"></i></a><a href="https://github.com/piyushs8589/SlideShow" target="_blank">GitHub <i data-feather="github" width="16"></i></a></div>
+                        </div>
+                    </div>
+                    
+                    <!-- <div class="project-card">
+                        <img src="https://via.placeholder.com/400x220/f97316/ffffff?text=Weather+App" alt="Project 4 Screenshot">
+                        <div class="project-card-content">
+                            <h3>Weather Dashboard</h3>
+                            <p>A clean weather dashboard that fetches real-time data from a third-party API using vanilla JavaScript.</p>
+                            <div class="tech-stack"><span>JavaScript</span><span>HTML</span><span>CSS</span><span>REST API</span></div>
+                            <div class="project-links"><a href="#" target="_blank">Live Demo <i data-feather="external-link" width="16"></i></a><a href="#" target="_blank">GitHub <i data-feather="github" width="16"></i></a></div>
+                        </div>
+                    </div>
+                     
+                    <div class="project-card">
+                        <img src="https://via.placeholder.com/400x220/3b82f6/ffffff?text=Chat+Application" alt="Project 5 Screenshot">
+                        <div class="project-card-content">
+                            <h3>Real-time Chat App</h3>
+                            <p>A full-stack chat application enabling real-time messaging between users, built with WebSockets.</p>
+                            <div class="tech-stack"><span>Java</span><span>WebSockets</span><span>JavaScript</span></div>
+                            <div class="project-links"><a href="#" target="_blank">Live Demo <i data-feather="external-link" width="16"></i></a><a href="#" target="_blank">GitHub <i data-feather="github" width="16"></i></a></div>
+                        </div>
+                    </div> -->
+
+                </div>
+            </div>
+        </section>
+
+        <section id="experience">
+            <div class="container">
+                <h2>Experience</h2>
+                <div class="card-container">
+                    
+                    <div class="info-card">
+                        <h3>Web Developer Intern <span>Dec 2024 - Feb 2025</span></h3>
+                        <p><strong>Falcon Labs | Remote</strong></p>
+                        <ul>
+                            <li>Assisted in developing and maintaining client websites using HTML, CSS, and JavaScript.</li>
+                            <li>Collaborated with the design team to implement responsive user interfaces.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-card">
+                        <h3>Java Development Intern <span>Jun 2025 - Aug 2025</span></h3>
+                        <p><strong>Tech Solutions Inc. | Remote</strong></p>
+                        <ul>
+                            <li>Contributed to a large-scale Java application, focusing on backend API development.</li>
+                            <li>Wrote unit tests to ensure code quality and participated in code reviews.</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="education">
+            <div class="container">
+                <h2>Education</h2>
+                <div class="card-container">
+                    
+                    <div class="info-card">
+                        <h3>Bachelor of Technology, CS <span>2022 - 2026</span></h3>
+                        <p><strong>Dr. A.P.J. Abdul Kalam Technical University</strong>, Lucknow, UP</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <h3>Senior Secondary Education <span>2021 - 2022</span></h3>
+                        <p><strong>Harmilap Mission School</strong>, Kanpur, UP</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <h3>Secondary School Education <span>2019 - 2020</span></h3>
+                        <p><strong>Harmilap Mission School</strong>, Kanpur, UP</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="honors">
+            <div class="container">
+                <h2>Honors & Awards</h2>
+                <div class="card-container">
+
+                    <div class="info-card">
+                        <h3>VIGYANOTSAV Participation</h3>
+                        <p>Participated in the national science festival organized by the Department of Science & Technology on MyGov.in.</p>
+                    </div>
+
+                     <div class="info-card">
+                        <h3>College Excellence Awards</h3>
+                        <p>Recognized with multiple awards for excellence in academic, cultural, and extracurricular college events.</p>
+                    </div>
+                    
+                     <div class="info-card">
+                        <h3>Leadership Recognition</h3>
+                        <p>Actively contributed as a coordinator for various college programs, demonstrating strong leadership and organizational skills.</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="certifications">
+            <div class="container">
+                <h2>Certifications</h2>
+                <div class="card-container">
+
+                    <div class="info-card">
+                        <h3>SQL</h3>
+                        <p><strong>HackerRank</strong> <span>Issued: 2025</span></p>
+                        <a href="https://www.hackerrank.com/certificates/5741b176632c" target="_blank" class="project-links">View <i data-feather="external-link" width="16"></i></a>
+                    </div>
+                    
+                    <div class="info-card">
+                        <h3>Java</h3>
+                        <p><strong>HackerRank</strong> <span>Issued: 2025</span></p>
+                        <a href="https://www.hackerrank.com/certificates/1f4a15119b8c" target="_blank" class="project-links">View <i data-feather="external-link" width="16"></i></a>
+                    </div>
+                    
+                    <div class="info-card">
+                        <h3>Generative AI</h3>
+                        <p><strong>GeeksforGeeks</strong> <span>JULY 2025</span></p>
+                        <a href="https://media.geeksforgeeks.org/courses/certificates/27e2cecc77b0adebb7242ddce6b4b4e9.pdf" target="_blank" class="project-links">View <i data-feather="external-link" width="16"></i></a>
+                    </div>
+                    
+                    <div class="info-card">
+                        <h3>Machine Learning</h3>
+                        <p><strong>Google</strong> <span>May 2025</span></p>
+                         <a href="https://developers.google.com/profile/badges/playlists/machine-learning-crash-course/classification/" target="_blank" class="project-links">View <i data-feather="external-link" width="16"></i></a>
+                    </div>
+                    
+                     <div class="info-card">
+                        <h3>C Language</h3>
+                        <p><strong>CodeChef</strong> <span>2024-2025</span></p>
+                         <a href="https://www.codechef.com/certificates/public/67a10ab" target="_blank" class="project-links">View <i data-feather="external-link" width="16"></i></a>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="container">
+                <div class="contact-container">
+                    <h2>Let's Connect</h2>
+                    <p>I'm open to new opportunities and collaborations. Feel free to reach out via email, connect on social media, or send me a message using the form below!</p>
+                    
+                    <div class="social-links">
+                        <a href="mailto:piyushmark132@gmail.com" aria-label="Email"><i data-feather="mail" width="32" height="32"></i></a>
+                        <a href="https://www.linkedin.com/in/piyush-sahu-147137269" target="_blank" aria-label="LinkedIn"><i data-feather="linkedin" width="32" height="32"></i></a>
+                        <a href="https://github.com/piyushs8589" target="_blank" aria-label="GitHub"><i data-feather="github" width="32" height="32"></i></a>
+                    </div>
+                    
+                    <form id="contact-form" action="https://formspree.io/f/mzzvwwkr" method="POST">
+                        <input type="text" name="name" placeholder="Your Name" required>
+                        <input type="email" name="email" placeholder="Your Email" required>
+                        <textarea name="message" placeholder="Your Message" required></textarea>
+                        <button type="submit" class="btn">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 | Made with ❤️ by Piyush.<br> All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- Feather Icons Initialization ---
+        // This line finds all the <i> tags with a "data-feather" attribute
+        // and magically replaces them with clean SVG icons from the Feather library.
+        feather.replace();
+
+        // --- Dark/Light Theme Toggle Logic ---
+        // Let's grab the HTML elements we need to work with.
+        const themeToggle = document.getElementById('theme-toggle'); // The sun/moon button.
+        const body = document.body; // The main body of our page.
+        
+        // We'll store the SVG code for the sun and moon icons so we can swap them easily.
+        const sunIcon = feather.icons.sun.toSvg();
+        const moonIcon = feather.icons.moon.toSvg();
+
+        // This function checks if you have a theme saved from a previous visit and applies it.
+        function applySavedTheme() {
+            // 'localStorage' is like the browser's little memory bank for our website.
+            const savedTheme = localStorage.getItem('theme');
+            
+            if (savedTheme === 'dark') {
+                // If we found 'dark' saved, we add the 'dark-mode' class to the body...
+                body.classList.add('dark-mode');
+                // ...and make sure the button shows the sun icon (to switch back to light).
+                themeToggle.innerHTML = sunIcon;
+            } else {
+                // Otherwise, we assume light mode. We remove the class...
+                body.classList.remove('dark-mode');
+                // ...and show the moon icon (to switch to dark).
+                themeToggle.innerHTML = moonIcon;
+            }
+        }
+
+        // Now, we listen for a click on our toggle button.
+        themeToggle.addEventListener('click', () => {
+            // This single line adds the 'dark-mode' class if it's not there, and removes it if it is. Super handy!
+            body.classList.toggle('dark-mode');
+            
+            // After the toggle, we need to save the new preference and update the icon.
+            if (body.classList.contains('dark-mode')) {
+                // If we're in dark mode now...
+                localStorage.setItem('theme', 'dark'); // Save 'dark' to the browser's memory.
+                themeToggle.innerHTML = sunIcon;      // Show the sun icon.
+            } else {
+                // If we're in light mode now...
+                localStorage.setItem('theme', 'light'); // Save 'light'.
+                themeToggle.innerHTML = moonIcon;       // Show the moon icon.
+            }
+        });
+
+        // Finally, we run this function right when the page loads to apply the correct theme instantly.
+        applySavedTheme();
+    </script>
+</body>
+</html>
