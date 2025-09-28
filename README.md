@@ -219,7 +219,7 @@ This project is open source and available under the [MIT License](LICENSE).
 ## 📞 Contact
 
 **Piyush Sahu**
-- 📧 Email: piyushmark132@gmail.com
+- 📧 Email: piyushsahu00096@gmail.com
 - 🔗 LinkedIn: [piyush-sahu-147137269](https://www.linkedin.com/in/piyush-sahu-147137269)
 - 💻 GitHub: [piyushs8589](https://github.com/piyushs8589)
 
